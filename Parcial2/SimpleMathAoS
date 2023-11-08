@@ -1,3 +1,84 @@
 ##SimpleMathAoS - Ejercicio 1
 
 (ImagenesDeApoyo/Ejercicio1.PNG)
+
+Según el perfilamiento de NVPROF, las principales actividades de la GPU fueron:
+
+- Memcpy de device a host (DtoH): 80.19% del tiempo total, 23.304ms, 2 llamadas, promedio de 11.652ms, 
+mínimo de 8.6804ms, máximo de 14.623ms
+
+- Memcpy de host a device (HtoD): 18.05% del tiempo, 5.2457ms, 1 llamada, 5.2457ms promedio, mínimo y máximo de 5.2457ms  
+
+- warmup(): 0.88% del tiempo, 256.10us, 1 llamada, 256.10us promedio, mínimo y máximo de 256.10us
+
+- testInnerStruct(): 0.88% del tiempo, 255.85us, 1 llamada, 255.85us promedio, mínimo y máximo de 255.85us
+
+Las principales llamadas a la API de CUDA fueron:
+
+- cudaMalloc: 88.83% del tiempo, 566.38ms, 2 llamadas, 283.19ms promedio, 376.90us mínimo, 566.01ms máximo
+
+- cudaDeviceReset: 5.61% del tiempo, 35.742ms, 1 llamada
+
+- cudaMemcpy: 4.90% del tiempo, 31.267ms, 3 llamadas, 10.422ms promedio
+
+- cuDeviceGetPCIBusId: 0.34% del tiempo, 2.1562ms, 1 llamada 
+
+- cudaFree: 0.19% del tiempo, 1.2200ms, 2 llamadas, 610.00us promedio
+
+- cudaDeviceSynchronize: 0.11% del tiempo, 669.90us, 2 llamadas, 334.95us promedio
+
+- cudaLaunchKernel: 0.03% del tiempo, 161.60us, 2 llamadas, 80.800us promedio
+
+---------------------------------------------------------------------------------------------------------------
+Aquí está la descripción de qué hace cada proceso de la GPU:
+
+- Memcpy de device a host (DtoH): 80.19% del tiempo total. Copia datos de la memoria del dispositivo (GPU)
+a la memoria del host (CPU). Se usa para transferir resultados de cálculos en la GPU de vuelta a la CPU.
+
+- Memcpy de host a device (HtoD): 18.05% del tiempo. Copia datos de la memoria del host (CPU) 
+a la memoria del dispositivo (GPU). Se usa para transferir datos de entrada a la GPU para realizar cálculos. 
+
+- warmup(): 0.88% del tiempo. Función que se ejecuta en la GPU para inicializar y precalentar 
+antes de ejecutar los cálculos principales. 
+
+- testInnerStruct(): 0.88% del tiempo. Función que se ejecuta en la GPU para realizar 
+los cálculos sobre los datos de entrada. Es la función de kernel que contiene el código paralelizado para la GPU.
+
+- cudaMalloc: 88.83% del tiempo API. Asigna memoria en el dispositivo (GPU) para almacenar datos.
+
+- cudaDeviceReset: 5.61% del tiempo API. Reinicia y limpia el estado del dispositivo (GPU).
+
+- cudaMemcpy: 4.90% del tiempo API. Realiza las copias de memoria entre host y device. 
+
+- cuDeviceGetPCIBusId: 0.34% del tiempo API. Obtiene el identificador PCI del dispositivo (GPU).
+
+- cudaFree: 0.19% del tiempo API. Libera la memoria previamente asignada en el dispositivo (GPU). 
+
+- cudaDeviceSynchronize: 0.11% del tiempo API. Sincroniza los hilos entre host y device. 
+
+- cudaLaunchKernel: 0.03% del tiempo API. Lanza la ejecución de una función kernel en la GPU.
+---------------------------------------------------------------------------------------------------------------
+Estos procesos representan un porcentaje muy pequeño del tiempo total (0.00%),
+por lo que no fueron descritos inicialmente y seran omitidos para las futuras descripciones
+puesto que no son el foco de Interes del tema, pero aquí están sus explicaciones:
+
+- cuDeviceGetAttribute: API para obtener atributos del dispositivo CUDA (GPU).
+
+- cudaSetDevice: API para establecer el dispositivo CUDA (GPU) activo a utilizar. 
+
+- cudaGetLastError: API que retorna el último error producido por una llamada a la API de CUDA.
+Se usa para verificar errores.
+
+- cudaGetDeviceProperties: API para obtener las propiedades del dispositivo CUDA (GPU).
+
+- cuDeviceGetCount: API que retorna el número de dispositivos CUDA (GPUs) disponibles.
+
+- cuDeviceGet: API para obtener un handle a un dispositivo CUDA (GPU) específico. 
+
+- cuDeviceGetName: API para obtener el nombre de un dispositivo CUDA (GPU).
+
+- cuDeviceTotalMem: API para obtener la memoria total de un dispositivo CUDA (GPU).
+
+- cuDeviceGetUuid: API para obtener el identificador único UUID de un dispositivo CUDA (GPU).
+
+
