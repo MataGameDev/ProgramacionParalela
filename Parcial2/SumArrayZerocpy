@@ -1,0 +1,73 @@
+#SumArrayZerocpy
+##Ejercicio 3
+
+###Según el perfilamiento de NVPROF, las actividades principales en la GPU fueron:
+
+- 33.33% (3.5200us, 1 llamada, 3.5200us mín/máx): sumArraysZeroCopy(float*, float*, float*, int)
+- 22.73% (2.4000us, 2 llamadas, 1.1840us mín, 1.2160us máx): [CUDA memcpy DtoH] 
+- 22.12% (2.3360us, 1 llamada, 2.3360us mín/máx): sumArrays(float*, float*, float*, int)
+- 21.82% (2.3040us, 2 llamadas, 864ns mín, 1.4400us máx): [CUDA memcpy HtoD]
+
+###Las llamadas a API principales fueron:
+
+- 94.24% (583.14ms, 3 llamadas, 1.8000us mín, 583.14ms máx): cudaMalloc
+- 5.09% (31.475ms, 1 llamada, 31.475ms mín/máx): cudaDeviceReset
+- 0.35% (2.1756ms, 1 llamada, 2.1756ms mín/máx): cuDeviceGetPCIBusId
+- 0.16% (988.60us, 2 llamadas, 3.8000us mín, 984.80us máx): cudaHostAlloc
+- 0.06% (368.90us, 2 llamadas, 4.5000us mín, 364.40us máx): cudaFreeHost
+- 0.06% (358.00us, 4 llamadas, 33.100us mín, 129.40us máx): cudaMemcpy
+- 0.04% (218.20us, 3 llamadas, 2.5000us mín, 208.10us máx): cudaFree
+- 0.01% (60.300us, 2 llamadas, 28.600us mín, 31.700us máx): cudaLaunchKernel
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+###Aquí está la descripción de cada proceso del perfilamiento:
+
+- sumArraysZeroCopy(float*, float*, float*, int) (33.33%, 3.5200us, 1 llamada): Función que suma arrays en la GPU usando memoria zero-copy.
+
+- [CUDA memcpy DtoH] (22.73%, 2.4000us, 2 llamadas): Copia memoria de la GPU al host. Transfiere resultados de la GPU al host.
+
+- sumArrays(float*, float*, float*, int) (22.12%, 2.3360us, 1 llamada): Función que suma arrays en la GPU, probablemente usando memoria paginada. 
+
+- [CUDA memcpy HtoD] (21.82%, 2.3040us, 2 llamadas): Copia memoria del host a la GPU. Transfiere datos de entrada a la GPU.
+
+- cudaMalloc (94.24%, 583.14ms, 3 llamadas): Reserva memoria en la GPU.
+
+- cudaDeviceReset (5.09%, 31.475ms, 1 llamada): Reinicia el dispositivo CUDA.
+
+- cuDeviceGetPCIBusId (0.35%, 2.1756ms, 1 llamada): Obtiene el bus PCI del dispositivo CUDA.
+
+- cudaHostAlloc (0.16%, 988.60us, 2 llamadas): Reserva memoria paginada en el host accesible para la GPU.  
+
+- cudaFreeHost (0.06%, 368.90us, 2 llamadas): Libera memoria reservada con cudaHostAlloc.
+
+- cudaMemcpy (0.06%, 358.00us, 4 llamadas): Copia memoria entre host y device.
+
+- cudaFree (0.04%, 218.20us, 3 llamadas): Libera memoria reservada en la GPU con cudaMalloc.
+
+- cudaLaunchKernel (0.01%, 60.300us, 2 llamadas): Lanza el kernel en la GPU.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+###las descripciones de los procesos con 0.00% de tiempo:
+
+- cuDeviceGetAttribute (0.00%, 14.900us, 101 llamadas): Obtiene atributos del dispositivo CUDA como nombre, memoria total, etc.
+
+- cuDeviceGet (0.00%, 1.1000us, 2 llamadas): Obtiene handle de un dispositivo CUDA.
+
+- cuDeviceGetCount (0.00%, 1.6000us, 3 llamadas): Obtiene el número de dispositivos CUDA disponibles.
+
+- cuDeviceGetName (0.00%, 700ns, 1 llamada): Obtiene el nombre del dispositivo CUDA. 
+
+- cuDeviceGetUuid (0.00%, 200ns, 1 llamada): Obtiene el UUID del dispositivo CUDA.
+
+- cuDeviceTotalMem (0.00%, 300ns, 1 llamada): Obtiene la memoria total del dispositivo CUDA.
+
+- cudaGetDeviceProperties (0.00%, 2.3000us, 1 llamada): Obtiene propiedades del dispositivo CUDA actual.
+
+- cudaGetDevice (0.00%, 6.2000us, 1 llamada): Obtiene el dispositivo CUDA actual.
+
+- cudaHostGetDevicePointer (0.00%, 2.1000us, 2 llamadas): Obtiene puntero del device para memoria reservada con cudaHostAlloc.
+
+- cudaSetDevice (0.00%, 6.2000us, 1 llamada): Establece el dispositivo CUDA activo.
+
+Son principalmente llamadas para consultar información y estado de los dispositivos CUDA. Por tomar muy poco tiempo no impactan significativamente el rendimiento.
