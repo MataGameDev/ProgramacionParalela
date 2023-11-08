@@ -1,0 +1,103 @@
+#WriteSegment
+##Ejercicio 7
+
+Según el perfilado de NVPROF, la GPU está realizando las siguientes actividades:
+
+- Actividades de GPU:
+  - 65.98% del tiempo (2.1129 ms) en 3 llamadas a [CUDA memcpy DtoH] con promedio de 704.29 us, mínimo de 518.98 us y máximo de 921.45 us
+  - 29.36% del tiempo (940.23 us) en 2 llamadas a [CUDA memcpy HtoD] con promedio de 470.12 us, mínimo de 465.19 us y máximo de 475.04 us 
+  - 1.55% del tiempo (49.504 us) en 1 llamada a writeOffset() con 49.504 us
+  - 1.49% del tiempo (47.712 us) en 1 llamada a warmup() con 47.712 us
+  - 0.91% del tiempo (29.120 us) en 1 llamada a writeOffsetUnroll2() con 29.120 us
+  - 0.72% del tiempo (23.072 us) en 1 llamada a writeOffsetUnroll4() con 23.072 us
+
+- Llamadas a API:
+  - 92.61% del tiempo (579.23 ms) en 3 llamadas a cudaMalloc con promedio de 193.08 ms
+  - 6.01% del tiempo (37.576 ms) en 1 llamada a cudaDeviceReset con 37.576 ms
+  - 0.83% del tiempo (5.1802 ms) en 5 llamadas a cudaMemcpy con promedio de 1.0360 ms
+  - 0.34% del tiempo (2.1550 ms) en 1 llamada a cuDeviceGetPCIBusId con 2.1550 ms
+  - 0.11% del tiempo (687.50 us) en 3 llamadas a cudaFree con promedio de 229.17 us
+  - 0.06% del tiempo (399.00 us) en 4 llamadas a cudaDeviceSynchronize con promedio de 99.750 us
+  - 0.04% del tiempo (225.60 us) en 4 llamadas a cudaLaunchKernel con promedio de 56.400 us
+
+Y así sucesivamente con los otros procesos y porcentajes de tiempo reportados.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la descripción de lo que hace cada proceso de la GPU, sin incluir los datos numéricos:
+
+- Actividades de GPU:
+
+  - [CUDA memcpy DtoH]: Copia datos de la memoria del dispositivo (GPU) a la memoria del host (CPU).
+
+  - [CUDA memcpy HtoD]: Copia datos de la memoria del host (CPU) a la memoria del dispositivo (GPU).
+  
+  - writeOffset(): Función que escribe datos en un array.
+
+  - warmup(): Función que inicializa arreglos, probablemente para calentar la cache.
+
+  - writeOffsetUnroll2(): Versión desenrollada de writeOffset para mejorar rendimiento.
+
+  - writeOffsetUnroll4(): Versión más desenrollada de writeOffset.
+
+- Llamadas a API:
+
+  - cudaMalloc: Asigna memoria en el dispositivo (GPU).
+
+  - cudaDeviceReset: Reinicia y limpia estado del dispositivo CUDA.
+
+  - cudaMemcpy: Copia datos entre host y device.
+
+  - cuDeviceGetPCIBusId: Obtiene el bus PCI del dispositivo.
+
+  - cudaFree: Libera memoria asignada en el dispositivo.
+
+  - cudaDeviceSynchronize: Espera a que termine el device.
+
+  - cudaLaunchKernel: Lanza un kernel en el device.
+
+  - cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA.
+
+  - cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA.
+  
+  - cudaSetDevice: Establece el dispositivo CUDA activo.
+
+  - cudaGetLastError: Obtiene último error de CUDA.
+
+  - cuDeviceGetCount: Obtiene número de dispositivos CUDA.
+
+  - cuDeviceGet: Obtiene handle de un dispositivo CUDA.
+
+  - cuDeviceGetName: Obtiene nombre de un dispositivo CUDA.
+
+  - cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA.
+
+  - cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA.
+
+
+------------------------------------------------------------------------------------------------
+
+
+Aquí está la descripción de los procesos que aparecen con 0.00% de tiempo:
+
+- cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA. Se llamó 101 veces con un promedio de 142 ns.
+
+- cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA. Se ejecutó 1 vez con 4.9000 us.
+
+- cudaSetDevice: Establece el dispositivo CUDA activo. Se ejecutó 1 vez con 4.1000 us. 
+
+- cudaGetLastError: Obtiene último error de CUDA. Se llamó 4 veces con un promedio de 825 ns.
+
+- cuDeviceGetCount: Obtiene número de dispositivos CUDA. Se llamó 3 veces con un promedio de 400 ns.
+
+- cuDeviceGet: Obtiene handle de un dispositivo CUDA. Se llamó 2 veces con un promedio de 550 ns.
+
+- cuDeviceGetName: Obtiene nombre de un dispositivo CUDA. Se ejecutó 1 vez con 700 ns.
+
+- cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA. Se ejecutó 1 vez con 300 ns.  
+
+- cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA. Se ejecutó 1 vez con 100 ns.
+
+Como pueden verse, estos procesos ocuparon un porcentaje de tiempo muy pequeño (0.00%) en la ejecución total, 
+probablemente porque se trata de funciones simples de obtención de información y configuración que se ejecutan muy rápido.
+
