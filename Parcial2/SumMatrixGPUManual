@@ -1,0 +1,77 @@
+#SumMatrixGPUManual
+##Ejercicio 5
+
+Según el perfilado de NVPROF, las actividades principales en la GPU fueron:
+
+- Memoria copiada de CPU a GPU (HtoD): 65.52% del tiempo total, 27.101ms, 2 llamadas, promedio 13.550ms, mínimo 8.3698ms, máximo 18.731ms
+
+- Memoria copiada de GPU a CPU (DtoH): 30.63% del tiempo, 12.669ms, 1 llamada, 12.669ms
+
+- Función sumMatrixGPU(): 2.69% del tiempo, 1.1118ms, 2 llamadas, promedio 555.89us, mínimo 288.73us, máximo 823.04us  
+
+- Memset en GPU: 1.16% del tiempo, 479.42us, 2 llamadas, promedio 239.71us, mínimo 238.91us, máximo 240.51us
+
+Las llamadas a API principales fueron:
+
+- cudaMalloc: 87.57%, 607.17ms, 3 llamadas, promedio 202.39ms, mínimo 713.10us, máximo 605.72ms
+
+- cudaMemcpy: 6.50%, 45.038ms, 3 llamadas, promedio 15.013ms, mínimo 8.6183ms, máximo 23.545ms  
+
+- cudaDeviceReset: 5.26%, 36.474ms, 1 llamada, 36.474ms
+
+- cudaFree: 0.19%, 1.3256ms, 3 llamadas, promedio 441.87us, mínimo 223.90us, máximo 799.30us
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la explicación de los principales procesos sin los datos numéricos:
+
+Memoria copiada de CPU a GPU (HtoD): Este proceso copia los datos de entrada desde la memoria del CPU a la memoria del GPU.
+Es necesario para poder ejecutar los cálculos en la GPU. 
+
+Memoria copiada de GPU a CPU (DtoH): Este proceso copia los resultados de vuelta desde la memoria del GPU a la memoria del CPU. 
+Permite recuperar los resultados calculados en la GPU.
+
+Función sumMatrixGPU(): Esta es la función kernel que realiza los cálculos en la GPU. Ejecuta muchos hilos en paralelo para sumar los elementos de la matriz de entrada.
+
+Memset en GPU: Inicializa un rango de memoria en la GPU a un valor específico, típicamente cero. Se usa para inicializar arrays de salida.
+
+cudaMalloc: Asigna memoria en el dispositivo GPU que se puede acceder desde el kernel. 
+
+cudaMemcpy: Copia datos entre el espacio de memoria del host (CPU) y el dispositivo (GPU).
+
+cudaDeviceReset: Reinicia y limpia el estado del dispositivo GPU seleccionado actualmente.
+
+cudaFree: Libera la memoria previamente asignada en el GPU con cudaMalloc.
+
+cudaDeviceSynchronize: Espera hasta que todos los hilos previos en la GPU han terminado antes de continuar con hilos en el CPU.
+
+En resumen, los procesos principales son copiar memoria a/desde la GPU, ejecutar kernels, asignar/liberar memoria, sincronizar y reiniciar el estado del dispositivo.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la explicación de los procesos con porcentaje de tiempo 0.00%:
+
+cuDeviceGetAttribute: Consulta atributos del dispositivo GPU como nombre, memoria total, capacidades, etc.
+
+cudaSetDevice: Establece el dispositivo GPU activo que se utilizará en llamadas posteriores.
+
+cudaGetDeviceProperties: Consulta las propiedades y capacidades del dispositivo GPU seleccionado.
+
+cuDeviceGetCount: Obtiene el número de dispositivos GPU disponibles.
+
+cuDeviceGetName: Obtiene el nombre del dispositivo GPU.
+
+cuDeviceGet: Obtenido un identificador para un dispositivo GPU específico.
+
+cudaGetLastError: Consulta cualquier error generado por la última llamada a la API de CUDA.
+
+cuDeviceTotalMem: Consulta la cantidad total de memoria en el dispositivo GPU.
+
+cuDeviceGetUuid: Obtiene el identificador único del dispositivo GPU.
+
+cudaLaunchKernel: Lanza el kernel especificado en la GPU.
+
+En resumen, estos procesos consultan información y propiedades de los dispositivos GPU, establecen el dispositivo activo, y lanzan kernels para su ejecución. 
+Toman un tiempo insignificante en comparación con procesos como copiar memoria o ejecutar kernels.
+
