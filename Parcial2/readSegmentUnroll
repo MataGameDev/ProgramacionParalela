@@ -1,0 +1,102 @@
+#readSegmentUnroll
+#Ejercicio 11
+
+Según el perfilado de NVPROF, la GPU está realizando las siguientes actividades:
+
+- Actividades de GPU:
+  - 64.13% del tiempo (2.0672 ms) en 3 llamadas a [CUDA memcpy DtoH] con promedio de 689.07 us
+  - 27.79% del tiempo (895.65 us) en 2 llamadas a [CUDA memcpy HtoD] con promedio de 447.83 us
+  - 1.94% del tiempo (62.593 us) en 4 llamadas a [CUDA memset] con promedio de 15.648 us
+  - 1.56% del tiempo (50.368 us) en 1 llamada a readOffsetUnroll4() con 50.368 us
+  - 1.55% del tiempo (49.984 us) en 1 llamada a readOffset() con 49.984 us
+  - 1.54% del tiempo (49.632 us) en 1 llamada a readOffsetUnroll2() con 49.632 us 
+  - 1.49% del tiempo (47.904 us) en 1 llamada a warmup() con 47.904 us
+
+- Llamadas a API:
+  - 93.30% del tiempo (592.46 ms) en 3 llamadas a cudaMalloc con promedio de 197.49 ms
+  - 5.46% del tiempo (34.676 ms) en 1 llamada a cudaDeviceReset con 34.676 ms
+  - 0.69% del tiempo (4.4052 ms) en 5 llamadas a cudaMemcpy con promedio de 881.04 us
+  - 0.32% del tiempo (2.0617 ms) en 1 llamada a cuDeviceGetPCIBusId con 2.0617 ms
+  - 0.12% del tiempo (749.60 us) en 3 llamadas a cudaFree con promedio de 249.87 us
+
+- Otros procesos con 0.00% del tiempo como:
+  - cuDeviceGetAttribute llamado 101 veces
+  - cudaGetDeviceProperties llamado 1 vez
+  - cudaSetDevice llamado 1 vez
+  - cudaGetLastError llamado 4 veces
+  - cuDeviceGet llamado 2 veces  
+  - cuDeviceGetCount llamado 3 veces
+  - cuDeviceGetName llamado 1 vez
+  - cuDeviceTotalMem llamado 1 vez
+  - cuDeviceGetUuid llamado 1 vez
+
+----------------------------------------------------------------------------------------------------------------
+
+Aquí está la descripción de lo que hace cada proceso de la GPU, sin incluir los datos numéricos:
+
+- Actividades de GPU:
+
+  - [CUDA memcpy DtoH]: Copia datos de la memoria del dispositivo (GPU) a la memoria del host (CPU).
+
+  - [CUDA memcpy HtoD]: Copia datos de la memoria del host (CPU) a la memoria del dispositivo (GPU).
+
+  - [CUDA memset]: Establece valores en un rango de memoria del device.
+
+  - readOffsetUnroll4(): Versión desenrollada de readOffset para mejorar rendimiento.
+
+  - readOffset(): Función que lee datos de un array.
+
+  - readOffsetUnroll2(): Versión menos desenrollada de readOffset.
+
+  - warmup(): Función que inicializa arreglos, probablemente para calentar la cache.
+
+- Llamadas a API:
+
+  - cudaMalloc: Asigna memoria en el dispositivo (GPU).
+
+  - cudaDeviceReset: Reinicia y limpia estado del dispositivo CUDA.
+
+  - cudaMemcpy: Copia datos entre host y device.
+
+  - cuDeviceGetPCIBusId: Obtiene el bus PCI del dispositivo.
+
+  - cudaFree: Libera memoria asignada en el dispositivo.
+
+- Otros procesos:
+
+  - cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA.
+
+  - cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA.
+
+  - cudaSetDevice: Establece el dispositivo CUDA activo.
+
+  - cudaGetLastError: Obtiene último error de CUDA.
+
+  - cuDeviceGetCount: Obtiene número de dispositivos CUDA.
+
+  - cuDeviceGet: Obtiene handle de un dispositivo CUDA.
+
+  - cuDeviceGetName: Obtiene nombre de un dispositivo CUDA.
+
+  - cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA.
+
+  - cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA.
+
+En resumen, la GPU está gastando la mayoría del tiempo en transferencias de memoria y lectura de datos,
+con operaciones simples de inicialización y obtención de información ocupando poco tiempo.
+
+---------------------------------------------------------------------------------------------------------------
+
+Para los procesos que aparecen con 0.00% del tiempo en el perfilado, se puede describir así:
+
+cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA.
+cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA.
+cudaSetDevice: Establece el dispositivo CUDA activo.
+cudaGetLastError: Obtiene último error de CUDA.
+cuDeviceGetCount: Obtiene número de dispositivos CUDA.
+cuDeviceGet: Obtiene handle de un dispositivo CUDA.
+cuDeviceGetName: Obtiene nombre de un dispositivo CUDA.
+cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA.
+cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA.
+Estos procesos realizan operaciones simples y rápidas de obtención de información y configuración de los dispositivos CUDA, 
+por lo que ocupan un porcentaje de tiempo muy bajo (0.00%) en la ejecución total del programa en la GPU.
