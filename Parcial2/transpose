@@ -19,7 +19,7 @@ En resumen, indica el tiempo y llamadas de distintas funciones CUDA relacionadas
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-En español, una descripción de qué hace cada proceso principal sin incluir los datos numéricos sería:
+Una descripción de qué hace cada proceso principal sin incluir los datos numéricos sería:
 
 - GPU actividades:
 
