@@ -1,0 +1,94 @@
+#sumMatrixGPUManaged
+##Ejercicio - 4
+
+Según el perfilamiento de NVPROF, las actividades principales en la GPU fueron:
+
+- sumMatrixGPU(float*, float*, float*, int, int): 100.00% del tiempo, 12.948ms, 2 llamadas, promedio de 6.4741ms, mínimo de 288.67us, máximo de 12.660ms.
+
+- cudaMallocManaged: 91.39% del tiempo, 815.38ms, 4 llamadas, promedio de 203.85ms, mínimo de 27.532ms, máximo de 731.17ms. 
+
+- cudaDeviceReset: 3.45% del tiempo, 30.801ms, 1 llamada, promedio de 30.801ms.
+
+- cudaFree: 3.31% del tiempo, 29.569ms, 4 llamadas, promedio de 7.3922ms.
+
+- cudaDeviceSynchronize: 1.52% del tiempo, 13.583ms, 1 llamada, promedio de 13.583ms.
+
+- cuDeviceGetPCIBusId: 0.24% del tiempo, 2.1681ms, 1 llamada, promedio de 2.1681ms.
+
+- cudaLaunchKernel: 0.07% del tiempo, 644.20us, 2 llamadas, promedio de 322.10us.
+
+- cuDeviceGetAttribute: 0.00% del tiempo, 14.100us, 101 llamadas, promedio de 139ns.
+
+- cudaSetDevice: 0.00% del tiempo, 5.8000us, 1 llamada, promedio de 5.8000us.
+
+- cudaGetDeviceProperties: 0.00% del tiempo, 4.0000us, 1 llamada, promedio de 4.0000us.
+
+- cuDeviceGetCount: 0.00% del tiempo, 1.2000us, 3 llamadas, promedio de 400ns.
+
+- cuDeviceGet: 0.00% del tiempo, 1.1000us, 2 llamadas, promedio de 550ns. 
+
+- cudaGetLastError: 0.00% del tiempo, 900ns, 1 llamada, promedio de 900ns.
+
+- cuDeviceGetName: 0.00% del tiempo, 700ns, 1 llamada, promedio de 700ns.
+
+- cuDeviceTotalMem: 0.00% del tiempo, 300ns, 1 llamada, promedio de 300ns. 
+
+- cuDeviceGetUuid: 0.00% del tiempo, 200ns, 1 llamada, promedio de 200ns.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la descripción de qué hace cada proceso de la GPU:
+
+- sumMatrixGPU: Función que realiza la suma de matrices en la GPU.
+
+- cudaMallocManaged: Asigna memoria unificada que es accesible tanto para la CPU como la GPU.
+
+- cudaDeviceReset: Reinicia el dispositivo CUDA. 
+
+- cudaFree: Libera la memoria previamente asignada por cudaMallocManaged.
+
+- cudaDeviceSynchronize: Espera hasta que todos los streams de la GPU terminen sus tareas.
+
+- cuDeviceGetPCIBusId: Obtiene el ID del bus PCI del dispositivo CUDA. 
+
+- cudaLaunchKernel: Lanza el kernel sumMatrixGPU en la GPU.
+
+- cuDeviceGetAttribute: Obtiene atributos del dispositivo como nombre, memoria total, etc. 
+
+- cudaSetDevice: Establece el dispositivo CUDA activo.
+
+- cudaGetDeviceProperties: Obtiene las propiedades del dispositivo CUDA.
+
+- cuDeviceGetCount: Obtiene el número de dispositivos CUDA disponibles.
+
+- cuDeviceGet: Obtiene un handle para un dispositivo CUDA específico. 
+
+- cudaGetLastError: Obtiene el último error producido por la API de CUDA.
+
+- cuDeviceGetName: Obtiene el nombre del dispositivo CUDA.
+
+- cuDeviceTotalMem: Obtiene la memoria total del dispositivo CUDA.
+
+- cuDeviceGetUuid: Obtiene el UUID único del dispositivo CUDA.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+la descripción de los procesos con 0.00% de tiempo:
+
+- cuDeviceGetAttribute: Obtiene atributos del dispositivo como nombre, memoria total, etc.
+
+- cudaSetDevice: Establece el dispositivo CUDA activo. 
+
+- cudaGetDeviceProperties: Obtiene las propiedades del dispositivo CUDA.
+
+- cuDeviceGetCount: Obtiene el número de dispositivos CUDA disponibles.
+
+- cuDeviceGet: Obtiene un handle para un dispositivo CUDA específico.
+
+- cudaGetLastError: Obtiene el último error producido por la API de CUDA. 
+
+- cuDeviceGetName: Obtiene el nombre del dispositivo CUDA.
+
+- cuDeviceTotalMem: Obtiene la memoria total del dispositivo CUDA.
+
+- cuDeviceGetUuid: Obtiene el UUID único del dispositivo CUDA.
