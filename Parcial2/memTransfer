@@ -1,0 +1,96 @@
+#MemTransfer
+##Ejercicio 8
+
+El perfilado de NVPROF muestra lo siguiente sobre los procesos de la GPU:
+
+- Actividades de GPU:
+  - 52.15% del tiempo (2.1117 ms) en 1 llamada a [CUDA memcpy HtoD] con 2.1117 ms
+  - 47.85% del tiempo (1.9374 ms) en 1 llamada a [CUDA memcpy DtoH] con 1.9374 ms
+
+- Llamadas a API:
+  - 93.74% del tiempo (577.35 ms) en 1 llamada a cudaMalloc con 577.35 ms
+  - 5.15% del tiempo (31.729 ms) en 1 llamada a cudaDeviceReset con 31.729 ms 
+  - 0.71% del tiempo (4.3856 ms) en 2 llamadas a cudaMemcpy con promedio de 2.1928 ms
+  - 0.34% del tiempo (2.0994 ms) en 1 llamada a cuDeviceGetPCIBusId con 2.0994 ms
+  - 0.05% del tiempo (306.30 us) en 1 llamada a cudaFree con 306.30 us
+
+- Y otros procesos con 0.00% del tiempo como:
+  - cuDeviceGetAttribute llamado 101 veces con promedio de 145 ns
+  - cudaSetDevice llamado 1 vez con 8.0000 us
+  - cudaGetDeviceProperties llamado 1 vez con 2.8000 us
+  - cuDeviceGetCount llamado 3 veces con promedio de 466 ns
+  - cuDeviceGet llamado 2 veces con promedio de 450 ns
+  - cuDeviceGetName llamado 1 vez con 900 ns
+  - cuDeviceTotalMem llamado 1 vez con 400 ns 
+  - cuDeviceGetUuid llamado 1 vez con 200 ns
+
+En resumen, la GPU está gastando la mayoría del tiempo en transferencias de memoria entre host y device, 
+con operaciones simples de inicialización y obtención de información ocupando un tiempo mínimo.
+
+------------------------------------------------------------------------------------------------------------------------
+
+una descripción de lo que hace cada proceso de la GPU, sin incluir los datos numéricos, sería:
+
+- Actividades de GPU:
+
+  - [CUDA memcpy HtoD]: Copia datos de la memoria del host (CPU) a la memoria del dispositivo (GPU).
+
+  - [CUDA memcpy DtoH]: Copia datos de la memoria del dispositivo (GPU) a la memoria del host (CPU).
+
+- Llamadas a API:
+
+  - cudaMalloc: Asigna memoria en el dispositivo (GPU).
+
+  - cudaDeviceReset: Reinicia y limpia estado del dispositivo CUDA.
+
+  - cudaMemcpy: Copia datos entre host y device.
+
+  - cuDeviceGetPCIBusId: Obtiene el bus PCI del dispositivo.
+  
+  - cudaFree: Libera memoria asignada en el dispositivo.
+
+- Otros procesos:
+
+  - cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA.
+
+  - cudaSetDevice: Establece el dispositivo CUDA activo.
+
+  - cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA.
+
+  - cuDeviceGetCount: Obtiene número de dispositivos CUDA.
+
+  - cuDeviceGet: Obtiene handle de un dispositivo CUDA.
+
+  - cuDeviceGetName: Obtiene nombre de un dispositivo CUDA.
+
+  - cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA.
+
+  - cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA.
+
+En resumen, la GPU principalmente realiza transferencias de memoria entre host y device, 
+con operaciones simples de inicialización, configuración y obtención de información.
+
+----------------------------------------------------------------------------------------------------------------------
+
+Para los procesos que aparecen con 0.00% del tiempo en el perfilado, en español se puede describir así:
+
+- cuDeviceGetAttribute: Obtiene atributos del dispositivo CUDA. Se llamó 101 veces.
+
+- cudaSetDevice: Establece el dispositivo CUDA activo. Se ejecutó 1 vez.
+
+- cudaGetDeviceProperties: Obtiene propiedades del dispositivo CUDA. Se ejecutó 1 vez.  
+
+- cuDeviceGetCount: Obtiene número de dispositivos CUDA. Se llamó 3 veces.
+
+- cuDeviceGet: Obtiene handle de un dispositivo CUDA. Se llamó 2 veces.
+
+- cuDeviceGetName: Obtiene nombre de un dispositivo CUDA. Se ejecutó 1 vez.
+
+- cuDeviceTotalMem: Obtiene memoria total de un dispositivo CUDA. Se ejecutó 1 vez.
+
+- cuDeviceGetUuid: Obtiene UUID de un dispositivo CUDA. Se ejecutó 1 vez.
+
+Como se puede ver, estos procesos realizan operaciones simples y rápidas de obtención de información y configuración de los dispositivos CUDA,
+por lo que ocupan un porcentaje de tiempo muy pequeño (0.00%) en la ejecución total del programa en la GPU.
+
+
