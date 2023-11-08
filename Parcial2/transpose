@@ -1,0 +1,91 @@
+#Transpose
+##Ejercicio 6
+
+Según el perfil de NVPROF, las principales actividades de la GPU fueron:
+
+- GPU actividades:
+   - 86.82%  1.9853ms  1 llamada  1.9853ms mín y máx  [CUDA memcpy HtoD]  
+   - 6.62%  151.49us  1 llamada  151.49us mín y máx  copyRow(float*, float*, int, int)
+   - 6.56%  150.02us  1 llamada  150.02us mín y máx  warmup(float*, float*, int, int)
+
+- API calls:
+   - 86.44%  634.10ms  2 llamadas  317.05ms promedio, mín 434.00us, máx 633.66ms  cudaMalloc  
+   - 12.79% 93.791ms  1 llamada 93.791ms mín y máx cudaDeviceReset
+   - 0.32% 2.3634ms 1 llamada 2.3634ms mín y máx cudaMemcpy
+   - 0.31% 2.2569ms 1 llamada 2.2569ms mín y máx cuDeviceGetPCIBusId
+
+Y así sucesivamente con los demás procesos detallados en el perfil.
+En resumen, indica el tiempo y llamadas de distintas funciones CUDA relacionadas con memoria, inicialización y transferencia de datos en la GPU.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+En español, una descripción de qué hace cada proceso principal sin incluir los datos numéricos sería:
+
+- GPU actividades:
+
+  - [CUDA memcpy HtoD] - Copia de memoria de host a device. Transfiere datos de la memoria del host (CPU) a la memoria del device (GPU).
+
+  - copyRow() - Función para copiar filas de una matriz.
+
+  - warmup() - Función para inicializar/preparar una matriz.
+
+- API calls:
+
+  - cudaMalloc - Asigna memoria en el device (GPU).
+
+  - cudaDeviceReset - Reinicia el device (GPU).
+
+  - cudaMemcpy - Copia de memoria entre host y device.
+
+  - cuDeviceGetPCIBusId - Obtiene el identificador PCI del bus del device.
+
+  - cudaFree - Libera memoria previamente asignada en el device.
+
+  - cudaDeviceSynchronize - Espera a que terminen todos los kernels en ejecución.
+
+  - cudaLaunchKernel - Lanza un kernel para ejecutar en el device.
+
+  - cuDeviceGetAttribute - Obtiene atributos del device.
+
+  - cudaSetDevice - Establece el device activo.
+
+  - cudaGetDeviceProperties - Obtiene propiedades del device.
+
+  - cuDeviceGetCount - Obtiene el número de devices CUDA.
+
+  - cudaGetLastError - Obtiene el último error producido.
+
+  - cuDeviceGet - Obtiene handle de un device.
+
+  - cuDeviceGetName - Obtiene nombre del device.
+
+  - cuDeviceTotalMem - Obtiene memoria total del device.
+
+  - cuDeviceGetUuid - Obtiene UUID del device.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la descripción de los procesos con 0.00% de tiempo:
+
+- cuDeviceGetAttribute - Obtiene atributos del device.
+
+- cudaSetDevice - Establece el device activo. 
+
+- cudaGetDeviceProperties - Obtiene propiedades del device.
+
+- cuDeviceGetCount - Obtiene el número de devices CUDA.
+
+- cudaGetLastError - Obtiene el último error producido.
+
+- cuDeviceGet - Obtiene handle de un device. 
+
+- cuDeviceGetName - Obtiene nombre del device.
+
+- cuDeviceTotalMem - Obtiene memoria total del device.
+
+- cuDeviceGetUuid - Obtiene UUID del device.
+
+Como tienen 0.00% de tiempo, fueron operaciones muy rápidas que se ejecutaron en nanosegundos o microsegundos.
+fueron llamadas al API de CUDA para inicializar y
+consultar información básica de los devices y manejar errores.
+Al ser tan rápidas, no representan una carga significativa en el perfil de ejecución.
