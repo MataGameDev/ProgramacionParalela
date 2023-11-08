@@ -1,0 +1,78 @@
+#SimpleMathSoA
+##Ejercicio 2
+
+Según el perfilamiento de NVPROF, las principales actividades en la GPU fueron:
+
+- Memoria copia de dispositivo a host (DtoH): 73.35% de tiempo total, 12.215ms tiempo, 2 llamadas, promedio 6.1076ms, mínimo 3.7599ms, máximo 8.4554ms
+
+- Memoria copia de host a dispositivo (HtoD): 23.58% de tiempo total, 3.9265ms tiempo, 1 llamada, promedio 3.9265ms 
+
+- warmup2(): 1.54% de tiempo total, 256.42us tiempo, 1 llamada, promedio 256.42us
+
+- testInnerArray(): 1.54% de tiempo total, 256.03us tiempo, 1 llamada, promedio 256.03us
+
+Las principales llamadas API fueron:
+
+- cudaMalloc: 90.98% tiempo total, 584.89ms tiempo, 2 llamadas, promedio 292.45ms
+
+- cudaDeviceReset: 5.47% tiempo total, 35.165ms tiempo, 1 llamada, promedio 35.165ms
+
+- cudaMemcpy: 2.89% tiempo total, 18.564ms tiempo, 3 llamadas, promedio 6.1881ms
+
+- cudaFree: 0.15% tiempo total, 981.80us tiempo, 2 llamadas, promedio 490.90us
+
+- cudaLaunchKernel: 0.01% tiempo total, 94.200us tiempo, 2 llamadas, promedio 47.100us
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+la explicación de lo que hace cada proceso de GPU reportado por NVPROF:
+
+Memoria copia de dispositivo a host (DtoH): Copia datos de la memoria del dispositivo (GPU) a la memoria del host (CPU). 
+Permite que el CPU acceda a resultados calculados en la GPU.  
+
+Memoria copia de host a dispositivo (HtoD): Copia datos de la memoria del host (CPU) a la memoria del dispositivo (GPU).
+Permite enviar datos de entrada a la GPU para procesamiento.
+
+warmup2(): Función de calentamiento que realiza cálculos en la GPU antes de la función principal para iniciar los kernels.
+
+testInnerArray(): Función principal que ejecuta los cálculos principales en la GPU con los datos de entrada. 
+
+cudaMalloc: Asigna memoria en el dispositivo (GPU) para almacenar datos.
+
+cudaDeviceReset: Reinicia y limpia el estado de un dispositivo GPU.
+
+cudaMemcpy: Copia datos entre el host y el dispositivo, en ambas direcciones.
+
+cudaFree: Libera la memoria del dispositivo (GPU) previamente asignada con cudaMalloc. 
+
+cudaLaunchKernel: Lanza un kernel (función de GPU) para su ejecución en la GPU. 
+
+En resumen, el programa primero asigna memoria en la GPU, copia datos de entrada a la GPU, ejecuta kernels para procesamiento, 
+copia resultados de vuelta al CPU y libera la memoria de la GPU. La mayoría del tiempo se gasta en transferencias de memoria y no en cálculos.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aquí está la explicación de los procesos que tomaron 0.00% del tiempo total según el perfilamiento de NVPROF:
+
+cuDeviceGetAttribute: Consulta atributos del dispositivo GPU como name, compute capability, ECC support, etc.
+
+cudaSetDevice: Establece el dispositivo GPU activo para ejecutar kernels.
+
+cudaGetDeviceProperties: Consulta las propiedades del dispositivo GPU activo.
+
+cudaGetLastError: Consulta el último error de CUDA. 
+
+cuDeviceGetCount: Obtiene el número de dispositivos GPU disponibles.
+
+cuDeviceGetName: Obtiene el nombre del dispositivo GPU.
+
+cuDeviceGet: Obtiene un handle para un dispositivo GPU dado su índice.
+
+cuDeviceTotalMem: Obtiene la cantidad total de memoria del dispositivo GPU.
+
+cuDeviceGetUuid: Obtiene el UUID único del dispositivo GPU.
+
+Como estos procesos tomaron 0.00% del tiempo total, su impacto en el rendimiento general es insignificante.
+Son llamadas rápidas para obtener información y configurar el entorno de CUDA. No realizan cálculos o transferencias extensas de memoria. 
+La mayoría se ejecutan solo una vez al inicializar el programa. 
+Por esto su contribución al tiempo total de ejecución es mínima.
